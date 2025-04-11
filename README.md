@@ -1,1 +1,250 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CollegeRoute: Your Entrance Exam to College Guide</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f4f6f9; margin: 0; padding: 0; }
+    header { background: #003366; color: white; padding: 20px; text-align: center; }
+    nav { display: flex; justify-content: center; background: #0055a5; flex-wrap: wrap; }
+    nav button {
+      padding: 15px 25px; background: none; border: none;
+      color: white; cursor: pointer; font-size: 16px;
+    }
+    nav button.active { background: #002b5c; }
+    .section-title { width: 100%; text-align: center; margin: 30px 0 10px; font-size: 1.2em; color: #003366; }
+    .college-list {
+      display: flex; flex-wrap: wrap; justify-content: center;
+      padding: 10px 30px; gap: 20px;
+    }
+    .college-card {
+      background: white; border-radius: 10px; width: 300px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1); overflow: hidden;
+      transition: transform 0.3s;
+    }
+    .college-card:hover { transform: translateY(-5px); }
+    .college-card img {
+      width: 100%; height: 160px; object-fit: cover;
+    }
+    .college-card .info { padding: 15px; }
+    .college-card h3 { margin: 0 0 8px; color: #003366; }
+    .college-card p { margin: 4px 0; font-size: 14px; color: #333; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>CollegeRoute: Your Entrance Exam to College Guide</h1>
+  <p>Navigate Your Path from Exam Scores to Campus Doors</p>
+</header>
+
+<nav>
+  <button class="tab-btn active" data-tab="eamcet">EAMCET</button>
+  <button class="tab-btn" data-tab="jeemains">JEE Mains</button>
+  <button class="tab-btn" data-tab="advance">JEE Advanced</button>
+  <button class="tab-btn" data-tab="neet">NEET</button>
+  <button class="tab-btn" data-tab="collegeexam">College Exams</button>
+  <button class="tab-btn" data-tab="noexam">No Exam</button>
+</nav>
+
+<!-- Tab Content Areas -->
+<div id="eamcet" class="tab-content"></div>
+<div id="jeemains" class="tab-content"></div>
+<div id="advance" class="tab-content"></div>
+<div id="neet" class="tab-content"></div>
+<div id="collegeexam" class="tab-content"></div>
+<div id="noexam" class="tab-content"></div>
+
+<script>
+  const colleges = [
+    {
+      name:"JNTU Hyderabad",
+      exams:["eamcet"],
+      place:"Hyderabad",
+      courses:["CSE","EEE","IT"],
+      description:"Premier engineering university.",
+      about:"JNTU Hyderabad is a renowned technical institution known for academic excellence, vibrant campus life, and industry partnerships. It fosters innovation through cutting-edge research and provides various opportunities for career development. It has strong placement records and offers a wide range of engineering courses under JNTUH.",
+      image:"https://upload.wikimedia.org/wikipedia/en/thumb/9/97/JNTU_Hyderabad_logo.svg/800px-JNTU_Hyderabad_logo.svg.png",
+      eligibility:"Rank ≤150k",
+      fee:"₹1.2L/yr"
+    },
+    {
+      name:"CBIT Hyderabad",
+      exams:["eamcet","jeemains"],
+      place:"Hyderabad",
+      courses:["CSE","ECE","Civil"],
+      description:"Top private engineering college.",
+      about:"Chaitanya Bharathi Institute of Technology is one of the oldest and most prestigious engineering colleges in Telangana. Known for quality education, discipline, and industry-oriented teaching, CBIT maintains high academic standards. It also offers an excellent ecosystem for student startups and innovation.",
+      image:"https://www.cbit.ac.in/wp-content/uploads/2020/06/cbit-front.jpg",
+      eligibility:"Rank ≤200k",
+      fee:"₹1.5L/yr"
+    },
+    {
+      name:"DTU Delhi",
+      exams:["jeemains"],
+      place:"New Delhi",
+      courses:["CSE","ECE"],
+      description:"Premier state university.",
+      about:"Delhi Technological University is one of India’s top government engineering colleges, well known for its innovation and tech research. The university boasts top-tier faculty, a wide alumni network, and leading placement records with global companies.",
+      image:"https://via.placeholder.com/300x180.png?text=DTU",
+      eligibility:"≥98pct",
+      fee:"₹2.0L/yr"
+    },
+    {
+      name:"IIT Bombay",
+      exams:["advance"],
+      place:"Mumbai",
+      courses:["CSE","Aero"],
+      description:"Top IIT.",
+      about:"IIT Bombay is globally acclaimed for engineering education, research, and technological innovation. It features a world-class campus, interdisciplinary centers, and collaborations with leading international institutions. Students enjoy a dynamic campus culture and leadership development.",
+      image:"https://home.iitb.ac.in/images/logo/iitb_logo.png",
+      eligibility:"Rank ≤2k",
+      fee:"₹2.5L/yr"
+    },
+    {
+      name:"AIIMS Delhi",
+      exams:["neet"],
+      place:"New Delhi",
+      courses:["MBBS","MD","Nursing"],
+      description:"Top medical institute in India.",
+      about:"AIIMS Delhi is India’s most prestigious medical institution, known for advanced research and high-quality medical education. It has state-of-the-art medical facilities and is a leader in healthcare innovation and specialized treatment.",
+      image:"https://upload.wikimedia.org/wikipedia/commons/5/57/AIIMS_New_Delhi.jpg",
+      eligibility:"NEET Rank ≤100",
+      fee:"₹5k/year"
+    },
+    {
+      name:"CMC Vellore",
+      exams:["neet"],
+      place:"Vellore",
+      courses:["MBBS","BSc Nursing"],
+      description:"Top private medical college.",
+      about:"Christian Medical College, Vellore is highly ranked for its medical courses, community service, and patient care. The institution emphasizes ethics in medicine and provides a robust clinical training environment.",
+      image:"https://upload.wikimedia.org/wikipedia/commons/0/0a/Christian_Medical_College%2C_Vellore.jpg",
+      eligibility:"NEET Rank ≤1000",
+      fee:"₹48k/year"
+    },
+    {
+      name:"VIT Vellore",
+      exams:["collegeexam"],
+      place:"Vellore",
+      courses:["CSE","BioTech"],
+      description:"Own exam VITEEE.",
+      about:"VIT Vellore conducts its own entrance exam VITEEE. It is known for its world-class infrastructure, strong industry links, and international collaborations. The campus is tech-friendly and vibrant, encouraging innovation and entrepreneurship.",
+      image:"https://upload.wikimedia.org/wikipedia/commons/9/99/VIT_University_Academic_Block.jpg",
+      eligibility:"≥85%",
+      fee:"₹1.6L/yr"
+    },
+    {
+      name:"Amity University",
+      exams:["noexam"],
+      place:"Noida",
+      courses:["Engineering","MBA"],
+      description:"Direct admission.",
+      about:"Amity University offers direct admission based on merit. The campus is modern with global standard infrastructure, industry connections, and a strong focus on holistic student development. It also offers dual degree and international programs.",
+      image:"https://upload.wikimedia.org/wikipedia/commons/f/f9/Amity_University%2C_Noida.jpg",
+      eligibility:"12th ≥75%",
+      fee:"₹2.2L/yr"
+    },
+    {
+      name: "NIT Trichy",
+      exams: ["jeemains"],
+      place: "Tiruchirappalli",
+      courses: ["CSE", "ECE", "Mechanical"],
+      description: "Top NIT in India.",
+      about: "NIT Trichy is one of the premier engineering institutions in India, known for its academic excellence, research output, and strong placement records. It offers a vibrant campus life and excellent infrastructure.",
+      image: "https://upload.wikimedia.org/wikipedia/commons/3/3e/NIT_Trichy.jpg",
+      eligibility: "JEE Mains Rank ≤10k",
+      fee: "₹1.8L/yr"
+    },
+    {
+      name: "IIT Madras",
+      exams: ["advance"],
+      place: "Chennai",
+      courses: ["CSE", "Mechanical", "Aerospace"],
+      description: "Top IIT in India.",
+      about: "IIT Madras is a globally recognized institution for engineering and technology education. It is known for its cutting-edge research, innovation, and strong industry collaborations.",
+      image: "https://upload.wikimedia.org/wikipedia/commons/5/5e/IIT_Madras.jpg",
+      eligibility: "JEE Advanced Rank ≤1.5k",
+      fee: "₹2.5L/yr"
+    },
+    {
+      name: "Sharda University",
+      exams: ["noexam"],
+      place: "Greater Noida",
+      courses: ["Engineering", "Law", "MBA"],
+      description: "Direct admission based on merit.",
+      about: "Sharda University is a leading private university offering diverse programs. It is known for its modern infrastructure, global collaborations, and focus on holistic student development.",
+      image: "https://upload.wikimedia.org/wikipedia/commons/6/6f/Sharda_University.jpg",
+      eligibility: "12th ≥70%",
+      fee: "₹1.5L/yr"
+    },
+    {
+      name: "KIIT University",
+      exams: ["collegeexam"],
+      place: "Bhubaneswar",
+      courses: ["CSE", "IT", "Mechanical"],
+      description: "Top private university.",
+      about: "KIIT University conducts its own entrance exam (KIITEE) and is known for its excellent academic programs, modern infrastructure, and strong placement records.",
+      image: "https://upload.wikimedia.org/wikipedia/commons/4/4f/KIIT_University.jpg",
+      eligibility: "KIITEE Rank ≤10k",
+      fee: "₹2.0L/yr"
+    }
+  ];
+
+  function renderTab(tabId) {
+    const container = document.getElementById(tabId);
+    container.innerHTML = "";
+    const yes = colleges.filter(c => c.exams.includes(tabId));
+    container.insertAdjacentHTML("beforeend", `<div class="section-title">Colleges You Can Join with ${tabId.toUpperCase()}</div>`);
+    container.appendChild(renderList(yes));
+    const no = colleges.filter(c => !c.exams.includes(tabId));
+    container.insertAdjacentHTML("beforeend", `<div class="section-title">Other Colleges (Without ${tabId.toUpperCase()})</div>`);
+    container.appendChild(renderList(no));
+  }
+
+  function renderList(list) {
+    const div = document.createElement("div");
+    div.className = "college-list";
+    if (list.length === 0) {
+      div.innerHTML = `<p>No colleges found.</p>`;
+      return div;
+    }
+    list.forEach(college => {
+      const card = document.createElement("div");
+      card.className = "college-card";
+      card.innerHTML = `
+        <img src="${college.image}" alt="${college.name}">
+        <div class="info">
+          <h3>${college.name}</h3>
+          <p><strong>Location:</strong> ${college.place}</p>
+          <p><strong>Exam:</strong> ${college.exams.map(e => e.toUpperCase()).join(", ")}</p>
+          <p><strong>Eligible Rank/Marks:</strong> ${college.eligibility}</p>
+          <p><strong>Fee:</strong> ${college.fee}</p>
+          <p><strong>Courses:</strong> ${college.courses.join(", ")}</p>
+          <p><strong>About This College:</strong> ${college.about}</p>
+        </div>`;
+      div.appendChild(card);
+    });
+    return div;
+  }
+
+  ["eamcet","jeemains","advance","neet","collegeexam","noexam"].forEach(renderTab);
+
+  document.querySelectorAll("nav button").forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll("nav button").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      const tab = btn.dataset.tab;
+      document.querySelectorAll(".tab-content").forEach(c => c.classList.remove("active"));
+      document.getElementById(tab).classList.add("active");
+    });
+  });
+
+  document.getElementById("eamcet").classList.add("active");
+</script>
+
+</body>
+</html>
